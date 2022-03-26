@@ -1,11 +1,6 @@
-import {
-  Heading,
-  Box,
-  Container,
-  chakra,
-  Button,
-  Flex,
-} from "@chakra-ui/react";
+import { ConnectButton } from "../button/ConnectButton";
+import { useAccount, useConnect } from "wagmi";
+import { Heading, Container, chakra, Button, Flex } from "@chakra-ui/react";
 
 export function Header() {
   return (
@@ -24,9 +19,7 @@ export function Header() {
         >
           GM at me and get a chance to win ETH
         </Heading>
-        <Button maxW={"30%"} colorScheme="brand" variant="outline" size="sm">
-          Connect Wallet
-        </Button>
+        <ConnectButton />
       </Flex>
     </Container>
   );
