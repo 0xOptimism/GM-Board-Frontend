@@ -2,14 +2,9 @@ import { useAccount, useConnect } from "wagmi";
 
 import { Text, Button } from "@chakra-ui/react";
 
-export function ConnectButton() {
-  const [{ data: connectData, error: connectError }, connect] = useConnect();
-  const [{ data: accountData }, disconnect] = useAccount({
-    fetchEns: true,
-  });
-
-  if (accountData?.address) {
-    return <Text>{accountData.address}</Text>;
+export function ConnectButton({ connectData, address, connect }) {
+  if (address) {
+    return <Text>{address}</Text>;
   }
 
   return (
