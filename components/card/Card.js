@@ -1,14 +1,13 @@
-import { useContract, useProvider, useSigner } from "wagmi";
-import { Text, Flex, Container } from "@chakra-ui/react";
+import { useContract, useProvider } from "wagmi";
+import { Container, Text, Flex, chakra } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { abi } from "../../utils/abi.json";
+import { dateOptions, formatConnectedWallet } from "../../utils/utils";
 
 export function Card() {
   const [gm, setGm] = useState([]);
   const [loading, setLoading] = useState(true);
   const provider = useProvider();
-  const [{ data: signerData, error, loading: loadSigner }, getSigner] =
-    useSigner();
 
   const contract = useContract({
     addressOrName: "0x0a45C7D2C633cfBdc95B10dE8Dd7c3716Ac89219",
@@ -34,7 +33,7 @@ export function Card() {
   }
 
   return (
-    <>
+    <Container height={"700px"} maxW={"full"} overflow={"scroll"} mt={10}>
       {gm.map((data, index) => (
         <Flex
           flexBasis={"auto"}
@@ -49,11 +48,29 @@ export function Card() {
           onClick={() => sendGm()}
           key={index}
         >
-          <Text>Address: {data?.waver}</Text>
-          <Text>Message: {data?.message}</Text>
-          <Text>Time: {new Date(data.timestamp * 1000).toString()}</Text>
+          <Text>
+            <chakra.span fontWeight={400} color={"brand.orange"}>
+              Address:
+            </chakra.span>{" "}
+            {formatConnectedWallet(data?.waver, 30)}
+          </Text>
+          <Text>
+            <chakra.span fontWeight={400} color={"brand.orange"}>
+              Message:{" "}
+            </chakra.span>
+            {data?.message}
+          </Text>
+          <Text>
+            <chakra.span fontWeight={400} color={"brand.orange"}>
+              Time:{" "}
+            </chakra.span>
+            {new Date(data.timestamp * 1000).toLocaleString(
+              "en-US",
+              dateOptions
+            )}
+          </Text>
         </Flex>
       ))}
-    </>
+    </Container>
   );
 }
