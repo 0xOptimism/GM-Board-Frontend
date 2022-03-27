@@ -1,15 +1,7 @@
 import { ConnectButton } from "../button/ConnectButton";
-import { Card } from "../card/Card";
-import { SendGm } from "../button/SendGm";
 import { Heading, Container, chakra, Flex } from "@chakra-ui/react";
-import { useAccount, useConnect } from "wagmi";
 
-export function Header() {
-  const [{ data: accountData }, disconnect] = useAccount({
-    fetchEns: true,
-  });
-  const [{ data: connectData, error: connectError }, connect] = useConnect();
-
+export function Header({ connectData, connect, address }) {
   return (
     <Container mt={10}>
       <Flex justify={"center"} align={"center"} flexDirection={"column"}>
@@ -27,11 +19,9 @@ export function Header() {
         </Heading>
         <ConnectButton
           connectData={connectData}
-          address={accountData?.address}
+          address={address}
           connect={connect}
         />
-        {connectData.connected ? <SendGm /> : null}
-        {connectData.connected ? <Card /> : null}
       </Flex>
     </Container>
   );
