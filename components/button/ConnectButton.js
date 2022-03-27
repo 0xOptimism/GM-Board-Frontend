@@ -18,9 +18,7 @@ export function ConnectButton({ connectData, address, connect }) {
           key={connector.id}
           onClick={() => connect(connector)}
         >
-          {`Connect with ${connector.name}`}
-          {console.log(connector.ready)}
-          {!connector.ready && " (unsupported)"}
+          Connect With Metamask
         </Button>
       ))}
     </>
