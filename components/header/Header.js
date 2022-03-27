@@ -1,8 +1,14 @@
 import { ConnectButton } from "../button/ConnectButton";
+import { Card } from "../card/Card";
+import { Heading, Container, chakra, Flex } from "@chakra-ui/react";
 import { useAccount, useConnect } from "wagmi";
-import { Heading, Container, chakra, Button, Flex } from "@chakra-ui/react";
 
 export function Header() {
+  const [{ data: accountData }, disconnect] = useAccount({
+    fetchEns: true,
+  });
+  const [{ data: connectData, error: connectError }, connect] = useConnect();
+
   return (
     <Container mt={10}>
       <Flex justify={"center"} align={"center"} flexDirection={"column"}>
@@ -19,7 +25,12 @@ export function Header() {
         >
           GM at me and get a chance to win ETH
         </Heading>
-        <ConnectButton />
+        <ConnectButton
+          connectData={connectData}
+          address={accountData?.address}
+          connect={connect}
+        />
+        {connectData.connected ? <Card /> : null}
       </Flex>
     </Container>
   );
