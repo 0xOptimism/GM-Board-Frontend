@@ -13,7 +13,8 @@ export function SendGm() {
   });
 
   const sendGm = async () => {
-    await contract.wave("Hey, i hope to win!");
+    const tx = await contract.wave("Gm!", { gasLimit: 300000 });
+    console.log(tx.hash);
   };
 
   return (
