@@ -19,7 +19,6 @@ export function Header() {
           mb={5}
           textAlign={"center"}
           Heading
-          as="h6"
           size="md"
           color={"#e7e7e7"}
         >
