@@ -51,7 +51,7 @@ export function Card() {
         >
           <Text>Address: {data?.waver}</Text>
           <Text>Message: {data?.message}</Text>
-          <Text>Time: 2pm gmt</Text>
+          <Text>Time: {new Date(data.timestamp * 1000).toString()}</Text>
         </Flex>
       ))}
     </>
