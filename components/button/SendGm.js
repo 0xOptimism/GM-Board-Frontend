@@ -3,6 +3,7 @@ import { Button, Flex } from "@chakra-ui/react";
 import { abi } from "../../utils/abi.json";
 import useWeb3Store from "../../store/web3Store";
 import { CONTRACT_ADDRESS } from "../../constants";
+import { utils } from "ethers";
 
 export function SendGm() {
   const [{ data: signerData }] = useSigner();
@@ -15,7 +16,11 @@ export function SendGm() {
   });
 
   const sendGm = async () => {
-    const wave = await contract.wave("Good morning!", { gasLimit: 300000 });
+    const options = {
+      value: utils.parseUnits("0.1"),
+      gasLimit: 300000,
+    };
+    const wave = await contract.wave("Good morning!", options);
     await wave.wait();
     const contracts = await contract.getAllWaves();
     await setMessages(contracts);
