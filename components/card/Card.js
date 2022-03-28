@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useWeb3Store from "../../store/web3Store";
 import { abi } from "../../utils/abi.json";
 import { dateOptions, formatConnectedWallet } from "../../utils/utils";
+import { CONTRACT_ADDRESS } from "../../constants";
 
 export function Card() {
   const { messages, setMessages } = useWeb3Store();
@@ -11,7 +12,7 @@ export function Card() {
   const provider = useProvider();
 
   const contract = useContract({
-    addressOrName: "0x0a45C7D2C633cfBdc95B10dE8Dd7c3716Ac89219",
+    addressOrName: CONTRACT_ADDRESS,
     contractInterface: abi,
     signerOrProvider: provider,
   });
@@ -19,6 +20,7 @@ export function Card() {
   useEffect(() => {
     const getWaves = async () => {
       const getWaves = await contract.getAllWaves();
+      console.log(getWaves);
       setMessages(getWaves);
       setLoading(false);
     };
