@@ -1,10 +1,12 @@
 import { useContract, useSigner } from "wagmi";
 import { Button, Flex } from "@chakra-ui/react";
 import { abi } from "../../utils/abi.json";
+import useWeb3Store from "../../store/web3Store";
 import { CONTRACT_ADDRESS } from "../../constants";
 
 export function SendGm() {
   const [{ data: signerData }] = useSigner();
+  const { setMessages } = useWeb3Store();
 
   const contract = useContract({
     addressOrName: CONTRACT_ADDRESS,
@@ -13,8 +15,10 @@ export function SendGm() {
   });
 
   const sendGm = async () => {
-    const tx = await contract.wave("Gm!", { gasLimit: 300000 });
-    console.log(tx.hash);
+    const wave = await contract.wave("Good morning!", { gasLimit: 300000 });
+    await wave.wait();
+    const contracts = await contract.getAllWaves();
+    await setMessages(contracts);
   };
 
   return (

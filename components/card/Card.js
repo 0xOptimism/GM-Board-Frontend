@@ -25,14 +25,9 @@ export function Card() {
     getWaves();
   }, []);
 
-  const sendGm = async () => {
-    await contract.wave("Hey, i hope to win!");
-  };
-
   if (loading) {
     return null;
   }
-
   return (
     <Container height={"700px"} maxW={"full"} overflow={"scroll"} mt={10}>
       {messages.map((data, index) => (
@@ -46,7 +41,6 @@ export function Card() {
           m={3}
           p={5}
           position={"relative"}
-          onClick={() => sendGm()}
           key={index}
         >
           <Text>
