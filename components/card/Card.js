@@ -1,11 +1,12 @@
 import { useContract, useProvider } from "wagmi";
 import { Container, Text, Flex, chakra } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import useWeb3Store from "../../store/web3Store";
 import { abi } from "../../utils/abi.json";
 import { dateOptions, formatConnectedWallet } from "../../utils/utils";
 
 export function Card() {
-  const [gm, setGm] = useState([]);
+  const { messages, setMessages } = useWeb3Store();
   const [loading, setLoading] = useState(true);
   const provider = useProvider();
 
@@ -18,7 +19,7 @@ export function Card() {
   useEffect(() => {
     const getWaves = async () => {
       const getWaves = await contract.getAllWaves();
-      setGm(getWaves);
+      setMessages(getWaves);
       setLoading(false);
     };
     getWaves();
@@ -34,7 +35,7 @@ export function Card() {
 
   return (
     <Container height={"700px"} maxW={"full"} overflow={"scroll"} mt={10}>
-      {gm.map((data, index) => (
+      {messages.map((data, index) => (
         <Flex
           flexBasis={"auto"}
           flexDir={"column"}
