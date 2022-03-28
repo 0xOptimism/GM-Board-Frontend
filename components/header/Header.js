@@ -1,36 +1,28 @@
 import { ConnectButton } from "../button/ConnectButton";
-import { Card } from "../card/Card";
-import { Heading, Container, chakra, Flex } from "@chakra-ui/react";
-import { useAccount, useConnect } from "wagmi";
+import { Heading, Container, chakra, Flex, Text } from "@chakra-ui/react";
 
-export function Header() {
-  const [{ data: accountData }, disconnect] = useAccount({
-    fetchEns: true,
-  });
-  const [{ data: connectData, error: connectError }, connect] = useConnect();
-
+export function Header({ connectData, connect, address }) {
   return (
     <Container mt={10}>
       <Flex justify={"center"} align={"center"} flexDirection={"column"}>
         <Heading mb={2} textAlign={"center"}>
-          <chakra.span color={"#FB542B"}>GM</chakra.span> Board
+          <chakra.span color={"brand.orange"}>GM</chakra.span> Board
         </Heading>
-        <Heading
+        <Text
+          fontSize={"18px"}
+          fontWeight={400}
           mb={5}
           textAlign={"center"}
-          Heading
-          as="h6"
           size="md"
-          color={"#e7e7e7"}
+          color={"#a1a1a1"}
         >
           GM at me and get a chance to win ETH
-        </Heading>
+        </Text>
         <ConnectButton
           connectData={connectData}
-          address={accountData?.address}
+          address={address}
           connect={connect}
         />
-        {connectData.connected ? <Card /> : null}
       </Flex>
     </Container>
   );

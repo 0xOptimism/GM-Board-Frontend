@@ -1,10 +1,9 @@
-import { useAccount, useConnect } from "wagmi";
-
 import { Text, Button } from "@chakra-ui/react";
+import { formatConnectedWallet } from "../../utils/utils";
 
 export function ConnectButton({ connectData, address, connect }) {
   if (address) {
-    return <Text>{address}</Text>;
+    return <Text>Connected to: {formatConnectedWallet(address)}</Text>;
   }
 
   return (
@@ -18,7 +17,7 @@ export function ConnectButton({ connectData, address, connect }) {
           key={connector.id}
           onClick={() => connect(connector)}
         >
-          Connect With Metamask
+          Connect Wallet
         </Button>
       ))}
     </>
