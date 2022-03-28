@@ -20,7 +20,6 @@ export function Card() {
   useEffect(() => {
     const getWaves = async () => {
       const getWaves = await contract.getAllWaves();
-      console.log(getWaves);
       setMessages(getWaves);
       setLoading(false);
     };
