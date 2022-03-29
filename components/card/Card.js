@@ -8,6 +8,7 @@ import { CONTRACT_ADDRESS } from "../../constants";
 
 export function Card() {
   const { messages, setMessages } = useWeb3Store();
+  const [gmSent, setGmSent] = useState(null);
   const [loading, setLoading] = useState(true);
   const provider = useProvider();
 
@@ -19,6 +20,8 @@ export function Card() {
 
   useEffect(() => {
     const getWaves = async () => {
+      const getTotalGmSent = await contract.getTotalWaves();
+      setGmSent(getTotalGmSent);
       const getWaves = await contract.getAllWaves();
       setMessages(getWaves);
       setLoading(false);
@@ -31,6 +34,7 @@ export function Card() {
   }
   return (
     <Container height={"700px"} maxW={"full"} overflow={"scroll"} mt={10}>
+      <Text>Total GMs sent: {gmSent.toNumber()} </Text>
       {messages.map((data, index) => (
         <Flex
           flexBasis={"auto"}
