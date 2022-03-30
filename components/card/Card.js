@@ -7,8 +7,7 @@ import { dateOptions, formatConnectedWallet } from "../../utils/utils";
 import { CONTRACT_ADDRESS } from "../../constants";
 
 export function Card() {
-  const { messages, setMessages } = useWeb3Store();
-  const [gmSent, setGmSent] = useState(null);
+  const { messages, totalGms, setMessages, setTotalGms } = useWeb3Store();
   const [loading, setLoading] = useState(true);
   const provider = useProvider();
 
@@ -21,7 +20,7 @@ export function Card() {
   useEffect(() => {
     const getWaves = async () => {
       const getTotalGmSent = await contract.getTotalWaves();
-      setGmSent(getTotalGmSent);
+      setTotalGms(getTotalGmSent.toNumber());
       const getWaves = await contract.getAllWaves();
       setMessages(getWaves);
       setLoading(false);
@@ -34,7 +33,7 @@ export function Card() {
   }
   return (
     <Container height={"700px"} maxW={"full"} overflow={"scroll"} mt={10}>
-      <Text>Total GMs sent: {gmSent.toNumber()} </Text>
+      <Text>Total GMs sent: {totalGms} </Text>
       {messages.map((data, index) => (
         <Flex
           flexBasis={"auto"}
@@ -48,12 +47,19 @@ export function Card() {
           position={"relative"}
           key={index}
         >
-          <Text>
-            <chakra.span fontWeight={400} color={"brand.orange"}>
-              Address:
-            </chakra.span>{" "}
-            {formatConnectedWallet(data?.waver, 30)}
-          </Text>
+          <Flex justify={"space-between"}>
+            <Container p={0}>
+              <Text>
+                <chakra.span fontWeight={400} color={"brand.orange"}>
+                  Address:
+                </chakra.span>{" "}
+                {formatConnectedWallet(data?.waver, 35)}
+              </Text>
+            </Container>
+            <Container width={"15%"} border={"0.5px solid #FB542B"}>
+              <Text textAlign={"right"}>{data?.isWinner ? "won" : "lost"}</Text>
+            </Container>
+          </Flex>
           <Text>
             <chakra.span fontWeight={400} color={"brand.orange"}>
               Message:{" "}

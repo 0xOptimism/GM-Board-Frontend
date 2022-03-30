@@ -5,9 +5,14 @@ import useWeb3Store from "../../store/web3Store";
 import { CONTRACT_ADDRESS } from "../../constants";
 import { utils } from "ethers";
 
+const options = {
+  value: utils.parseUnits("0.1"),
+  gasLimit: 300000,
+};
+
 export function SendGm() {
   const [{ data: signerData }] = useSigner();
-  const { setMessages } = useWeb3Store();
+  const { setMessages, setTotalGms } = useWeb3Store();
 
   const contract = useContract({
     addressOrName: CONTRACT_ADDRESS,
@@ -15,15 +20,17 @@ export function SendGm() {
     signerOrProvider: signerData,
   });
 
+  const getAllgems = async () => {
+    const getTotalGmSent = await contract.getTotalWaves();
+    await setTotalGms(getTotalGmSent.toNumber());
+  };
+
   const sendGm = async () => {
-    const options = {
-      value: utils.parseUnits("0.1"),
-      gasLimit: 300000,
-    };
     const wave = await contract.wave("Good morning!", options);
     await wave.wait();
     const contracts = await contract.getAllWaves();
     await setMessages(contracts);
+    await getAllgems();
   };
 
   return (
